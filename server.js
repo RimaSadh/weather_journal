@@ -1,7 +1,7 @@
 // Setup empty JS object to act as endpoint for all routes
 var projectData = {
-    temperature: '',
     date: '',
+    temperature: {},
     user_response: '' 
 };
 
@@ -36,22 +36,20 @@ const server = app.listen(port, () => {
 
 
 /* ----SET ROUTES---- */
-// POST Route (adds incoming data to projectData)
+// POST route that adds incoming data to projectData
 app.post('/postWeather', (req, res) => {
 
     let newData = req.body;
-    let d = new Date();
-    let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+    // let d = new Date();
+    // let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
-    console.log("post wather function " + newData);
-
-    projectData.date = newDate;
-    projectData.temperature = newData.cod;
-    projectData.user_response = newData.name;
+    projectData.date = newData.date;
+    projectData.temperature = newData.temperature;
+    projectData.user_response = newData.user_response;
 
 });
 
-// GET Route (returns the projectData object)
+// GET route that returns the projectData object
 app.get('/all', (req, res) => { 
     res.send(projectData);
 });

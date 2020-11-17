@@ -16,15 +16,14 @@ const performAction = (e) => {
 
     // Get zip code entered by user, and perform validation
     let zipCode = document.getElementById('zip').value;
+    let userFeeling = document.getElementById('feelings').value;
 
     if(zipCode.length != 0){ // Check it is not empty
-
+ 
         getWeatherData(zipCode)
         .then( (data) => {
-            
-            console.log("POST start"); // JSON
-            postWeatherData('http://localhost:8080/postWeather', data);
-            console.log("POST end");
+            console.log(data)
+            postWeatherData('http://localhost:8080/postWeather', data, userFeeling);
 
         })
         .then( () => {
@@ -50,7 +49,6 @@ const getWeatherData = async(zipCode) => {
     try{
 
         const data = await response.json();
-        console.log("API GET RESPONSE: ", data);
         return data;
 
     }catch(error){
@@ -60,7 +58,14 @@ const getWeatherData = async(zipCode) => {
 }
 
 // Async POST response to server 
-const postWeatherData = async(url, data) => {
+const postWeatherData = async(url, data, feeling) => {
+
+    // Create Post Request Body
+    let requestBody = {
+        date: newDate,
+        temperature: data,
+        user_response: feeling 
+    };
 
     const response = await fetch(url, {
         method: 'POST',
@@ -68,12 +73,12 @@ const postWeatherData = async(url, data) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(requestBody),
     });
 
     try{
+
         const newData = await response.json();
-        console.log("API POST DONE", newData);
         return newData;
 
     }catch(error){
@@ -86,26 +91,17 @@ const postWeatherData = async(url, data) => {
 // Function to update the UI and render the response
 const updateUI = async() => {
     
-    console.log("UPDATE UI start");
-
     getAllData('http://localhost:8080/all')
     
     .then( (allData) => {
+        // Render JSON data
+        createUIelement('date', allData.date);
+        createUIelement('temp', allData.temperature.main.temp);
+        createUIelement('content', allData.user_response);
 
-        let date = document.getElementById('date');
-        let temp = document.getElementById('temp');
-        let content = document.getElementById('content');
-    
-        console.log("UPDATE UI MED : " + allData );
-    
-        // TODO: Rendered JSON data
-        date.innerHTML = allData.date;
-        temp.innerHTML = allData.temperature;
-        content.innerHTML = allData.user_response;
     })
 
 }
-
 
 // GET request the projectData object 
 const getAllData = async(url) => {
@@ -115,9 +111,6 @@ const getAllData = async(url) => {
     try{
 
         const allData = await response.json();
-
-        console.log("ALL APP function " + allData.temperature);
-
         return allData;
 
     }catch(error){
@@ -127,3 +120,23 @@ const getAllData = async(url) => {
 }
 
 // Create UI element
+const createUIelement = (parentElementID, content) => {
+
+    let ElementId = document.getElementById(parentElementID);
+    let ElementTitleText = parentElementID.charAt(0).toUpperCase() + parentElementID.slice(1);
+
+    let childElement = document.createElement('h3');
+    childElement.innerText = `${ElementTitleText} :`;
+
+    let contentElement = document.createElement('p');
+    if(content == ""){
+        contentElement.innerText = `No Feeling Recorded..`;
+    }else{
+        contentElement.innerText = `${content}`;
+    }
+
+    ElementId.innerHTML = '';
+    ElementId.append(childElement);
+    ElementId.append(contentElement);
+    
+}
