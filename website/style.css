@@ -15,7 +15,7 @@ body{
     grid-template-areas: 
     "hd hd"
     "first sec"
-    "btn btn"
+    "btn msg"
     "res res";
 }
 
@@ -24,8 +24,11 @@ body{
 }
 
 .entry{
-    background: #fffff8;
+    
     grid-area: res;
+    display: grid;
+    border-top: solid 2px #3b4a6b;
+    justify-content: center;
 }
 
 .zip{
@@ -61,11 +64,18 @@ body{
 }
 .title{
 
+
+}
+
+#error{
+    grid-area: msg;
+    color: red;
+    display: none;
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
 label{
-    display:block;
+    display: block;
     font-size: 20px;
 }
 
