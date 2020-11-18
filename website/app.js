@@ -6,7 +6,7 @@ let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 // Set API Credintials
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
-const apiKey = '&appid=ca671f7f06c4ee24ea9de753e9804d8b';
+const apiKey = '&appid=c*****************b';
 
 
 const performAction = (e) => {
