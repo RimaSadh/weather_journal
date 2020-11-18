@@ -40,9 +40,7 @@ const server = app.listen(port, () => {
 app.post('/postWeather', (req, res) => {
 
     let newData = req.body;
-    // let d = new Date();
-    // let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
-
+    
     projectData.date = newData.date;
     projectData.temperature = newData.temperature;
     projectData.user_response = newData.user_response;
