@@ -22,7 +22,7 @@ const performAction = (e) => {
  
         getWeatherData(zipCode)
         .then( (data) => {
-            console.log(data)
+            
             postWeatherData('http://localhost:8080/postWeather', data, userFeeling);
 
         })
@@ -114,7 +114,7 @@ const getAllData = async(url) => {
         return allData;
 
     }catch(error){
-        console.log("Error (updateUI): ", error);
+        console.log("Error (getAllData): ", error);
     }
 
 }
